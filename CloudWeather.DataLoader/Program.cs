@@ -12,6 +12,8 @@ var zipCodes = new List<string>{
 
 Console.WriteLine("Starting Data Load");
 
+var temperatureHttpClient = HttpClientCreator.CreateTemperatureClient();
+var precipitationHttpClient = HttpClientCreator.CreatePrecipitationClient();
 
 foreach (var zip in zipCodes)
 {
@@ -22,8 +24,8 @@ foreach (var zip in zipCodes)
 
     for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
     {
-        var temps = PostTemp(zip, day, HttpClientCreator.CreateTemperatureClient());
-        PostPrecipitation(temps[0], zip, day, HttpClientCreator.CreatePrecipitationClient());
+        var temps = PostTemp(zip, day, temperatureHttpClient);
+        PostPrecipitation(temps[0], zip, day, precipitationHttpClient);
     }
 }
 
